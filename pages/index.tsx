@@ -1,5 +1,5 @@
 const IndexPage = () => (
-  <div className="flex items-center justify-center h-screen w-screen bg-black text-white" style={makeCursor('white')}>
+  <div className="flex items-center justify-center h-screen w-screen bg-black text-white" style={typeof window !== 'undefined' ? makeCursor('white') : {}}>
     <h1>(•◡•)</h1>
   </div>
 )
