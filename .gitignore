@@ -13,7 +13,7 @@ pids
 
 # build
 **/*/build
-**/*/.next
+.next/
 
 # production
 **/*/dist
