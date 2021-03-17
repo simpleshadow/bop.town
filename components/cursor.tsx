@@ -41,7 +41,7 @@ const Cursor = ({ position }: CursorProps) => {
   const positionSpring = useSpring({
     ...(!isPositionNull
       ? { left, top }
-      : { left: prevNotNullPosition.current.x, top: prevNotNullPosition.current.y }),
+      : { left: prevNotNullPosition.current?.x, top: prevNotNullPosition.current?.y }),
     opacity: isPositionNull ? 0 : (1 as any),
     from:
       !isPrevPositionNull && !isPositionNull
