@@ -44,3 +44,5 @@ typings/
 
 # miscellaneous
 .DS_Store
+
+.vercel
