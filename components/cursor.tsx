@@ -42,7 +42,7 @@ const Cursor = ({ position }: CursorProps) => {
     ...(!isPositionNull
       ? { left, top }
       : { left: prevNotNullPosition.current.x, top: prevNotNullPosition.current.y }),
-    opacity: isPositionNull ? 0 : 1,
+    opacity: isPositionNull ? 0 : (1 as any),
     from:
       !isPrevPositionNull && !isPositionNull
         ? {
