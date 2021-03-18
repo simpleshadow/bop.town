@@ -1,15 +1,15 @@
 import { useEffect, useRef } from 'react'
 
-const useCursorDataUrl = () => {
-  const cursorDataUrl = useRef<string>()
+const useCursorDataUrl = (color?: string) => {
+  const cursorDataUrl = useRef<string>(color)
 
   useEffect(() => {
-    cursorDataUrl.current = getCursorDataUrl()
-  }, [])
+    cursorDataUrl.current = getCursorDataUrl(color)
+  }, [color])
 
   return cursorDataUrl.current
 }
-const getCursorDataUrl = () => {
+const getCursorDataUrl = (color?: string) => {
   const colors = [
     '#FBB506', // yellow
     '#FF2F55', // magenta
@@ -30,7 +30,7 @@ const getCursorDataUrl = () => {
   ctx.lineTo(6, 15)
   ctx.lineTo(15, 15)
   ctx.closePath()
-  ctx.fillStyle = colors[Math.floor(Math.random() * 5)]
+  ctx.fillStyle = color || colors[Math.floor(Math.random() * 5)]
   ctx.fill()
 
   return cursor.toDataURL()

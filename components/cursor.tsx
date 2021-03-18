@@ -4,6 +4,7 @@ import { a, useSpring, config } from 'react-spring'
 import { useCursorDataUrl, usePrevious } from '../hooks'
 
 type CursorProps = {
+  color?: string
   position?: {
     x: number
     y: number
@@ -12,13 +13,13 @@ type CursorProps = {
 
 const debug = Debug(`components:cursor`)
 
-const Cursor = ({ position }: CursorProps) => {
-  const { x: left, y: top } = position || {}
+const Cursor = ({ color, position }: CursorProps) => {
+  const { x, y } = position || {}
 
   const prevPosition = usePrevious<CursorProps['position']>(position)
-  const cursorDataUrl = useCursorDataUrl()
+  const cursorDataUrl = useCursorDataUrl(color)
 
-  const isPositionNull = left == null && top == null
+  const isPositionNull = x == null && y == null
   const isPrevPositionNull = prevPosition?.x === null && prevPosition?.y === null
 
   const prevNotNullPosition = useRef<CursorProps['position']>(position)
@@ -27,9 +28,29 @@ const Cursor = ({ position }: CursorProps) => {
     if (position && !isPositionNull) prevNotNullPosition.current = position
   }, [position])
 
+  let left = x,
+    top = y
+  if (isPositionNull) {
+    const lastLeft = prevNotNullPosition.current?.x
+    const lastTop = prevNotNullPosition.current?.y
+    const lastRight = window.innerWidth - prevNotNullPosition.current?.x
+    const lastBottom = window.innerHeight - prevNotNullPosition.current?.y
+
+    if (
+      (lastLeft <= lastTop && lastLeft <= lastBottom) ||
+      (lastRight <= lastTop && lastRight <= lastBottom)
+    ) {
+      left = prevNotNullPosition.current?.x + 200 * (lastLeft <= lastRight ? -1 : 1)
+      top = prevNotNullPosition.current?.y
+    } else {
+      left = prevNotNullPosition.current?.x
+      top = prevNotNullPosition.current?.y + 200 * (lastTop <= lastBottom ? -1 : 1)
+    }
+  }
+
   const introSpring = useSpring({
     config: config.wobbly,
-    scale: !isPositionNull ? 1 : 0.75,
+    scale: !isPositionNull ? 1 : 1.25,
     from:
       !isPrevPositionNull && !isPositionNull
         ? {
@@ -39,9 +60,7 @@ const Cursor = ({ position }: CursorProps) => {
     reset: isPrevPositionNull,
   })
   const positionSpring = useSpring({
-    ...(!isPositionNull
-      ? { left, top }
-      : { left: prevNotNullPosition.current?.x, top: prevNotNullPosition.current?.y }),
+    ...{ left, top },
     opacity: isPositionNull ? 0 : (1 as any),
     from:
       !isPrevPositionNull && !isPositionNull

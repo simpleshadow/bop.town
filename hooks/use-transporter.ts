@@ -59,10 +59,7 @@ const createTransporter = ({
       peers: [],
       socket: io(`${process.env.NEXT_PUBLIC_SOCKET_IO_HOST}`),
       sendStatus: status => {
-        const { position } = status
-        transporter.socket.emit(SocketEvents.SEND_STATUS, {
-          position,
-        })
+        transporter.socket.emit(SocketEvents.SEND_STATUS, status)
       },
     }
 
@@ -109,14 +106,15 @@ const createTransporter = ({
       // update peer statuses
       transporter.socket.on(
         SocketEvents.RECEIVED_PEER_STATUS,
-        ({ id, position }: TransporterPeerStatusData & { id: string }) => {
+        ({ id, color, name, position }: TransporterPeerStatusData & { id: string }) => {
           const index = getPeerIndex(id)
           const activePeer = getPeer(id)
+          const status = { color, name, position }
           if (index >= 0 && activePeer) {
             transporter.peers[index] = {
               ...transporter.peers[index],
               id,
-              status: { position },
+              status,
             }
             debug(
               `${SocketEvents.RECEIVED_PEER_STATUS} ${id} %O %O`,
@@ -124,7 +122,7 @@ const createTransporter = ({
               transporter.peers
             )
           }
-          onReceivedPeerStatus && onReceivedPeerStatus(id, { position })
+          onReceivedPeerStatus && onReceivedPeerStatus(id, status)
         }
       )
     })
