@@ -1,7 +1,8 @@
 import { Socket, io } from 'socket.io-client'
 import Debug from 'debug'
-
 import { useEffect, useState } from 'react'
+
+import { CursorPosition } from '../components/cursor'
 import {
   SocketEvents,
   SocketEventDataPeerConnect,
@@ -12,10 +13,7 @@ import {
 export type TransporterPeerStatusData = {
   color?: string
   name?: string
-  position: {
-    x: number
-    y: number
-  }
+  position: CursorPosition
 }
 
 const debug = Debug(`hooks:use-transporter`)

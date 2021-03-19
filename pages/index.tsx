@@ -19,11 +19,15 @@ const Index = () => {
         return { ...cursors, [id]: { ...cursors[id] } }
       }),
     onPeerDisconnected: id =>
-      setPeerCursors(cursors => {
-        let newCursors = cursors
-        delete newCursors[id]
-        return newCursors
-      }),
+      setTimeout(
+        () =>
+          setPeerCursors(cursors => {
+            let newCursors = cursors
+            delete newCursors[id]
+            return newCursors
+          }),
+        5000
+      ),
   })
   const [mouseRef, mouseState] = useMouse()
   const [color] = useState(colors[Math.floor(Math.random() * 5)])
@@ -36,7 +40,6 @@ const Index = () => {
   return (
     <div
       className="absolute inset-0 text-white overflow-hidden"
-      onClick={() => spotifyPlayer && spotifyPlayer.getCurrentState().then(state => debug('%o', state))}
       style={{
         background: '#181A20',
         cursor: 'none',

@@ -5,10 +5,12 @@ import { useCursorDataUrl, usePrevious } from '../hooks'
 
 type CursorProps = {
   color?: string
-  position?: {
-    x: number
-    y: number
-  }
+  position?: CursorPosition
+}
+
+export type CursorPosition = {
+  x: number
+  y: number
 }
 
 const debug = Debug(`components:cursor`)
@@ -50,11 +52,11 @@ const Cursor = ({ color, position }: CursorProps) => {
 
   const introSpring = useSpring({
     config: config.wobbly,
-    scale: !isPositionNull ? 1 : 1.25,
+    scale: 1,
     from:
       !isPrevPositionNull && !isPositionNull
         ? {
-            scale: 2,
+            scale: 1.25,
           }
         : null,
     reset: isPrevPositionNull,
@@ -70,7 +72,6 @@ const Cursor = ({ color, position }: CursorProps) => {
             opacity: 0,
           }
         : null,
-    reset: isPrevPositionNull,
   })
   return (
     <>
