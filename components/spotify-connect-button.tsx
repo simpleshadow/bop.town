@@ -20,7 +20,7 @@ const SpotifyConnectButton = () => {
       onClick={() => {
         const clientId = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID
         const scopes = ['streaming', 'user-modify-playback-state', 'user-read-email', 'user-read-private']
-        const redirectUri = 'http://localhost:3000'
+        const redirectUri = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI
         const spotifyAuthUri = 'https://accounts.spotify.com/en/authorize'
         window.location.href = `${spotifyAuthUri}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
           '%20'
