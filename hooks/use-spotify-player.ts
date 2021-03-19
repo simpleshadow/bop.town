@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import Debug from 'debug'
+import { LocalStorage } from '../types'
 
 const debug = Debug('hooks:use-spotify-player')
 
@@ -7,7 +8,7 @@ const useSpotifyPlayer = () => {
   const [currentPlayer, setCurrentPlayer] = useState<Spotify.SpotifyPlayer>()
 
   const initPlayer = () => {
-    const spotifyToken = typeof localStorage !== 'undefined' && localStorage.spotifyToken
+    const spotifyToken = typeof localStorage !== 'undefined' && localStorage[LocalStorage.SPOTIFY_TOKEN]
 
     if (!currentPlayer && spotifyToken && typeof window.Spotify !== 'undefined') {
       const player = new window.Spotify.Player({
@@ -55,11 +56,11 @@ const useSpotifyPlayer = () => {
       .reduce<{ [id: string]: any }>((prev, item) => {
         return Object.assign({ [item.split('=')[0]]: item.split('=')[1] }, prev)
       }, {})
-    const spotifyToken = localStorage.getItem('spotifyToken')
+    const spotifyToken = localStorage.getItem(LocalStorage.SPOTIFY_TOKEN)
     window.location.hash &&
       !spotifyToken &&
       spotifyToken !== hash?.access_token &&
-      localStorage.setItem('spotifyToken', hash.access_token)
+      localStorage.setItem(LocalStorage.SPOTIFY_TOKEN, hash.access_token)
     history.replaceState(null, null, ' ')
   }, [])
 
