@@ -60,9 +60,9 @@ const CursorLand = ({ color, mouseState }: CursorLandProps) => {
 
   const positionSpring = useSpring({
     config: {
-      friction: 30,
+      friction: 25,
       mass: 1,
-      tension: 325,
+      tension: 320,
     },
     left: x,
     top: y,
