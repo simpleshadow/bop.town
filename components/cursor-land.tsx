@@ -71,7 +71,7 @@ const CursorLand = ({ color, mouseState }: CursorLandProps) => {
       top: curTop,
     },
     onChange: ({ left, top }) => {
-      const closeEnoughDistance = 3
+      const closeEnoughDistance = 1
       if (
         shouldAnimateMousePosition &&
         Math.abs(left - x) <= closeEnoughDistance &&

@@ -6,6 +6,7 @@ import CursorLand from '../components/cursor-land'
 import { useMouse, useSpotifyPlayer, useTransporter } from '../hooks'
 import { TransporterPeerStatusData } from '../hooks/use-transporter'
 import SpotifyConnectButton from '../components/spotify-connect-button'
+import { LocalStorage } from '../types'
 
 const debug = Debug(`pages:index`)
 
@@ -46,7 +47,7 @@ const Index = () => {
       }}
       ref={mouseRef}
     >
-      {typeof localStorage !== 'undefined' && !localStorage.spotifyToken && (
+      {typeof localStorage !== 'undefined' && !localStorage[LocalStorage.SPOTIFY_TOKEN] && (
         <div className="absolute flex items-center justify-center h-full w-full">
           <SpotifyConnectButton />
         </div>
