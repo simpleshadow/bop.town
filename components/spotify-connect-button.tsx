@@ -6,13 +6,13 @@ const SpotifyConnectButton = () => {
   const hoverSpring = useSpring({
     config: config.stiff,
     scale: isHovering ? 1.15 : 1,
+    background: `#${isHovering ? '1ED760' : '1DB954'}`,
   })
   return (
     <a.div
       className="relative text-white uppercase text-xs font-medium px-8 py-4 rounded-full select-none"
       style={{
         ...hoverSpring,
-        background: '#1DB954',
         filter: `drop-shadow(0px 5px 6px rgba(0, 0, 0, 0.3))` as any,
       }}
       onMouseEnter={() => setIsHovering(true)}

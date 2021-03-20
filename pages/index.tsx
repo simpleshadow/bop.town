@@ -31,7 +31,7 @@ const Index = () => {
   })
   const [mouseRef, mouseState] = useMouse()
   const [color] = useState(colors[Math.floor(Math.random() * 5)])
-  const spotifyPlayer = useSpotifyPlayer()
+  useSpotifyPlayer()
 
   useEffect(() => {
     transporter?.sendStatus({ position: { x: mouseState.x, y: mouseState.y }, color })
