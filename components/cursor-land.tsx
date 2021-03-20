@@ -42,7 +42,7 @@ const CursorLand = ({ color, mouseState }: CursorLandProps) => {
   const bounceInSpring = useSpring({
     config: config.wobbly,
     from: {
-      scale: 1.25,
+      scale: 1.5,
     },
     to: {
       scale: 1,
@@ -60,9 +60,9 @@ const CursorLand = ({ color, mouseState }: CursorLandProps) => {
 
   const positionSpring = useSpring({
     config: {
-      friction: 35,
+      friction: 30,
       mass: 1,
-      tension: 304,
+      tension: 325,
     },
     left: x,
     top: y,
@@ -71,7 +71,12 @@ const CursorLand = ({ color, mouseState }: CursorLandProps) => {
       top: curTop,
     },
     onChange: ({ left, top }) => {
-      if (shouldAnimateMousePosition && left === x && top === y) {
+      const closeEnoughDistance = 3
+      if (
+        shouldAnimateMousePosition &&
+        Math.abs(left - x) <= closeEnoughDistance &&
+        Math.abs(top - y) <= closeEnoughDistance
+      ) {
         setShouldAnimateMousePosition(false)
       }
     },
